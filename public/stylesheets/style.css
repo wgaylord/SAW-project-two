@@ -7,17 +7,24 @@ a,abbr,acronym,address,applet,article,aside,audio,b,big,blockquote,body,canvas,c
 /* stylelint-enable */
 
 /* Creating the checkerboard */
-#checkerboard {
+.checkerboard {
   display: grid;
-  grid-template-columns: repeat(4, 100px);
-  grid-template-rows: repeat(4, 100px);
+  grid-template-columns: repeat(8, 50px);
+  grid-template-rows: repeat(8, 50px);
   grid-gap: 4px;
 }
 
 /* Creating the individuals squares on the checkerboard */
-#checkerboard a {
+.checkerboard a {
   display: block;
   height: 100%;
   width: 100%;
-  background: #07F;
+}
+
+.red {
+  background: red;
+}
+
+.black {
+  background: black;
 }
