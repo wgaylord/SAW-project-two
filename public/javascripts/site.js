@@ -1,5 +1,5 @@
 
-var namespace = io.connect('/' + NAMESPACE);
+var sc = io.connect('/' + NAMESPACE);
 sc.on('message', function(data) {
   console.log('Message recieved: ' + data);
 });
