@@ -1,25 +1,24 @@
 extends layout
 
 block content
+  header#header
+    h1= title
+    p Welcome to #{title}
 
-header#header
-h1= title
-p Welcome to #{title}
-
-main#app
-figure.videos
-  video(
-    id="self-video"
-    autoplay
-    muted
-    playsinline
-  )
-  video(
-    id="peer-video"
-    autoplay
-  )
-  figcaption
-    button#call-button Start Call
+  main#app
+    figure.videos
+      video(
+        id="self-video"
+        autoplay
+        muted
+        playsinline
+      )
+      video(
+        id="peer-video"
+        autoplay
+      )
+      figcaption
+        button#call-button Start Call
 
     div.checkerboard
       a.red(id='1',href='#')
@@ -94,6 +93,4 @@ figure.videos
       a.black(id='63',href='#')
       a.red(id='64',href='#')
 
-
-script.
-window.NAMESPACE = "#{namespace}";
+  script.
