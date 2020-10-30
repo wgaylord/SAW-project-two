@@ -5,7 +5,7 @@
  * Module dependencies.
  */
 
-const {app, socket} = require('../app');
+const {app, io} = require('../app');
 const debug = require('debug')('socket-express:server');
 const fs = require('fs');
 
@@ -44,7 +44,7 @@ app.set('port', port);
 /**
  * Attach socket.io to the same server
  */
-socket.attach(server);
+io.attach(server);
 
 /**
  * Listen on provided port, on all network interfaces.
