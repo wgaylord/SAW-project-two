@@ -30,9 +30,9 @@ app.use('/', indexRouter);
 
 const namespaces = io.of(/^\/[a-z]{3}-[a-z]{4}-[a-z]{3}$/);
 
-namespaces.on('connection', function(io) {
+namespaces.on('connection', function(socket) {
   const namespace = socket.nsp;
-  socket.emit('message', 'Successfully connected on namespace: ${namespace.name}');
+  socket.emit('message', `Successfully connected on namespace: ${namespace.name}`);
   socket.on('calling', function() {
     socket.broadcast.emit('calling');
 });
