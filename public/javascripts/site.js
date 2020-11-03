@@ -26,7 +26,7 @@ chat.addEventListener('submit', function(e) {
 // Append msgs to li element
 function appendMessage(message) {
   const li = document.createElement("li");
-  div.innerText = message;
+  li.innerText = message;
   messageContainer.append(li);
 };
 
@@ -197,4 +197,4 @@ var board = {
 //
 // }
 
-board.freeze();
+//board.freeze();
