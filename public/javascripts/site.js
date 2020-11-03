@@ -153,16 +153,22 @@ pc.onicecandidate = function({candidate}) {
   sc.emit('signal', { candidate: candidate });
 }
 
-// Placing the red + black pieces on the checkerboard
-// This is only a beta test function for now
-var board = {
-  red: ['A1','A3','B2','B4'],
-  black: ['C2','C4','D1', 'D3'],
+checkersGame = Checkers()
+
+function sendCheckersUpdate(oldLoc,newLoc){
+	sc.emit("checkers_update",{oldLocation:oldLoc,newLocation:newLoc})
 }
 
-// This is how we keep track of which checker pieces have been removed from the checkerboard
-// var score = {
-//
-// }
 
-board.freeze();
+
+function startGame(){
+	checkersGame.addClickHandlers();
+	checkersGame.initGame("black",sendCheckersUpdate)
+	sc.emit("checkers_startGame")
+}
+
+
+sc.on("checkers_startGame",function(){checkersGame.addClickHandlers();;checkersGame.initGame("red",sendCheckersUpdate)})
+
+sc.on("checkers_update",function(update){checkersGame.processUpdate(update.oldLocation,update.newLocation);})
+

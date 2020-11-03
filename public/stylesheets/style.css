@@ -80,3 +80,39 @@ video {
 .black {
   background: black;
 }
+
+.redPiece {
+    
+    background-color: #fa7587;
+    
+}
+
+.blackPiece {
+    
+    background-color: #3f556b;
+   
+}
+
+.redKing {
+    
+    background-color: #ff266b;
+    
+}
+
+.blackKing {
+    
+    background-color: #71aae3;
+   
+}
+
+.avaliableMove {
+    
+  background: black;
+  animation: flash 0.7s;
+  animation-iteration-count: infinite;
+   
+}
+
+@keyframes flash {
+  50%  {background-color: #61aefa;}
+}
