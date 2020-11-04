@@ -1,3 +1,35 @@
+'use strict';
+// Referance: https://blog.crowdbotics.com/build-chat-app-with-nodejs-socket-io/
+// Load the socket.io-client
+const socket = io();
+
+const messageContainer = document.querySelector("#message-container");
+const chat = document.querySelector("#chat-form");
+const Input = document.querySelector("#chat-input");
+// Function to get chat message event
+socket.on('chat-message', function(data) {
+  appendMessage(`${data.message}`);
+});
+// Function to print out the chat message event
+chat.addEventListener('submit', function(e) {
+  e.preventDefault();
+  const message = Input.value;
+  if (message){
+    appendMessage(`You: ${message}`);
+    socket.emit('send-message', message);
+    Input.value = "";
+
+  } else {
+    alert("Please enter a message!");
+  }
+});
+// Append msgs to li element
+function appendMessage(message) {
+  const li = document.createElement("li");
+  li.innerText = message;
+  messageContainer.append(li);
+};
+
 
 var sc = io.connect('/' + NAMESPACE);
 sc.on('message', function(data) {
@@ -165,4 +197,4 @@ var board = {
 //
 // }
 
-board.freeze();
+//board.freeze();

@@ -46,6 +46,17 @@ namespaces.on('connection', function(socket) {
   });
 });
 
+// Initialize a chat connection
+io.on('connection', function(socket) {
+  console.log('a user connected');
+  socket.on('send-message', function(message) {
+    socket.broadcast.emit('chat-message', { message: message });
+  });
+  socket.on('disconnect', function() {
+    console.log('user disconnected');
+  })
+});
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
