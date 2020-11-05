@@ -44,6 +44,10 @@ namespaces.on('connection', function(socket) {
     // side does not receive its own description or candidate
     socket.broadcast.emit('signal', { description, candidate });
   });
+  socket.on('checkers', function(data) {
+    socket.broadcast.emit('checkers',data);
+});
+
 });
 
 // Initialize a chat connection
