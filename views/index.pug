@@ -20,6 +20,12 @@ block content
       figcaption
         button#call-button Start Call
 
+      div#chat-window
+        form#chat-form
+          input#chat-input(type="text")
+          button#send-button(type="submit") Send
+        li#message-container
+
     div.checkerboard
       a.red(id='1',href='#')
       a.black(id='2',href='#')

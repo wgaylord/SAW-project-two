@@ -66,6 +66,43 @@ video {
   grid-gap: 4px;
 }
 
+/* chat style */
+/* TODO add new style to chat box */
+#chat-window {
+  background-color: gray;
+  height: 300px;
+  max-height: 40%;
+  margin-bottom: 5vh;
+  width: 400px;
+}
+#message-container {
+  background-color: orange;
+  max-height: 80%;
+  width: 400px;
+  overflow-y: scroll;
+}
+#message-container li {
+  color: black;
+  line-height: 1.3em;
+}
+#chat-form {
+  float: none;
+  border: 1px grey solid;
+  background-color: blue;
+  padding: 10px;
+}
+#chat-input {
+  border: solid 1px;
+  background-color: yellow;
+  width: 300px;
+  height: 35px;
+}
+#send-button {
+  background-color: green;
+  border: solid 1px;
+  height: 100%;
+}
+
 /* Creating the individuals squares on the checkerboard */
 .checkerboard a {
   display: block;
