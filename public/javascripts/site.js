@@ -156,19 +156,35 @@ pc.onicecandidate = function({candidate}) {
 checkersGame = Checkers()
 
 function sendCheckersUpdate(oldLoc,newLoc){
-	sc.emit("checkers_update",{oldLocation:oldLoc,newLocation:newLoc})
+	sc.emit("checkers",{type:"update",oldLocation:oldLoc,newLocation:newLoc})
 }
-
+function sendCheckersCapture(loc1){
+	console.log(loc1);
+	sc.emit("checkers",{type:"capture",loc:loc1})
+}
 
 
 function startGame(){
 	checkersGame.addClickHandlers();
-	checkersGame.initGame("black",sendCheckersUpdate)
-	sc.emit("checkers_startGame")
+	checkersGame.initGame("black",sendCheckersUpdate,sendCheckersCapture);
+	sc.emit("checkers",{type:"start"});
 }
 
 
-sc.on("checkers_startGame",function(){checkersGame.addClickHandlers();;checkersGame.initGame("red",sendCheckersUpdate)})
 
-sc.on("checkers_update",function(update){checkersGame.processUpdate(update.oldLocation,update.newLocation);})
+sc.on("checkers",function(data){
+	if(data.type == "start"){
+	checkersGame.addClickHandlers();
+	checkersGame.initGame("red",sendCheckersUpdate,sendCheckersCapture);
+	}
+	if(data.type == "update"){
+		checkersGame.processUpdate(data.oldLocation,data.newLocation);
+	}
+	if(data.type == "capture"){
+		checkersGame.processCapture(data.loc);
+	}
+	
+})
+
+
 

@@ -44,13 +44,10 @@ namespaces.on('connection', function(socket) {
     // side does not receive its own description or candidate
     socket.broadcast.emit('signal', { description, candidate });
   });
-  socket.on('checkers_startGame', function() {
-    socket.broadcast.emit('checkers_startGame');
+  socket.on('checkers', function(data) {
+    socket.broadcast.emit('checkers',data);
 });
-socket.on('checkers_update', function(data) {
-    socket.broadcast.emit('checkers_update',data);
-});
-  
+
 });
 
 // catch 404 and forward to error handler
