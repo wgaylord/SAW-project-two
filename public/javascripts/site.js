@@ -1,4 +1,4 @@
-
+// Use 'sc' for the signlaing channel...
 var sc = io.connect('/' + NAMESPACE);
 sc.on('message', function(data) {
   console.log('Message recieved: ' + data);
@@ -11,8 +11,39 @@ var clientIs = {
   polite: false
 }
 
+// Eventually, we will set up STUN servers here
 var rtc_config = null;
 var pc = new RTCPeerConnection(rtc_config);
+
+// Set a placeholder for the data channel
+var dc = null;
+
+// Add the data channel-backed DOM elements for the chat box
+var chatBox = document.querySelector('aside.chat');
+var chatLog = document.querySelector('#chat-log');
+var chatForm = document.querySelector('#chat-form');
+var chatInput = document.querySelector('#message');
+var chatButton = document.querySelector('#send-button');
+
+// Creating a function that will append the message to the chat log
+function appendMessageToChatLog(log, msg, who) 
+{
+  var li = document.createElement('li');
+  var msg = document.createTextNode(msg);
+  li.className = who;
+  li.appendChild(msg);
+  log.appendChild(li);
+  if (chatBox.scrollTo) 
+  {
+    chatBox.scrollTo({
+      top: chatBox.scrollHeight,
+      behavior: 'smooth'
+    });
+  } else 
+  {
+    chatBox.scrollTop = chatBox.scrollHeight;
+  }
+}
 
 // Let's handle video streams...
 // Set up simple media_constraints
