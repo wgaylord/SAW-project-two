@@ -47,11 +47,14 @@ function appendMessageToChatLog(log, msg, who)
 
 // Let's handle video streams...
 // Set up simple media_constraints
+// We are disabling the audio of the video streams
 var media_constraints = { video: true, audio: false };
+
 // Handle self video
 var selfVideo = document.querySelector('#self-video');
 var selfStream = new MediaStream();
 selfVideo.srcObject = selfStream;
+
 // Handle peer video
 var peerVideo = document.querySelector('#peer-video');
 var peerStream = new MediaStream();
@@ -144,7 +147,12 @@ sc.on('signal', async function({ candidate, description }) {
       }
 
       // Set the remote description...
-      await pc.setRemoteDescription(description);
+      try {
+        console.log('Trying to set a remote description:\n', description);
+        await pc.setRemoteDescription(description);
+      } catch(error) {
+        console.error('Error from setting local description', error);
+      }
 
       // ...if it's an offer, we need to answer it:
       if (description.type == 'offer') {
@@ -157,9 +165,19 @@ sc.on('signal', async function({ candidate, description }) {
             // Older (and not even all that old) browsers
             // are NOT cool. So because we're handling an
             // offer, we need to prepare an answer:
-            var answer = await pc.createAnswer();
-            await pc.setLocalDescription(new RTCSessionDescription(answer));
+            console.log('Falling back to older setLocalDescription method when receiving an offer...');
+            if (pc.signalingState == 'have-remote-offer') {
+              // create a answer, if that's what's needed...
+              console.log('Trying to prepare an answer:');
+              var offer = await pc.createAnswer();
+            } else {
+              // otherwise, create an offer
+              console.log('Trying to prepare an offer:');
+              var offer = await pc.createOffer();
+            }
+            await pc.setLocalDescription(offer);
           } finally {
+            console.log('Sending a response:\n', pc.localDescription);
             sc.emit('signal', { description: pc.localDescription });
           }
       }
