@@ -44,6 +44,21 @@ namespaces.on('connection', function(socket) {
     // side does not receive its own description or candidate
     socket.broadcast.emit('signal', { description, candidate });
   });
+  socket.on('checkers', function(data) {
+    socket.broadcast.emit('checkers',data);
+});
+
+});
+
+// Initialize a chat connection
+io.on('connection', function(socket) {
+  console.log('a user connected');
+  socket.on('send-message', function(message) {
+    socket.broadcast.emit('chat-message', { message: message });
+  });
+  socket.on('disconnect', function() {
+    console.log('user disconnected');
+  })
 });
 
 // catch 404 and forward to error handler

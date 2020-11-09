@@ -1,38 +1,4 @@
 // Use 'sc' for the signlaing channel...
-'use strict';
-// Referance: https://blog.crowdbotics.com/build-chat-app-with-nodejs-socket-io/
-// Load the socket.io-client
-const socket = io();
-
-const messageContainer = document.querySelector("#message-container");
-const chat = document.querySelector("#chat-form");
-const Input = document.querySelector("#chat-input");
-// Function to get chat message event
-socket.on('chat-message', function(data) {
-  appendMessage(`${data.message}`);
-});
-// Function to print out the chat message event
-chat.addEventListener('submit', function(e) {
-  e.preventDefault();
-  const message = Input.value;
-  if (message){
-    appendMessage(`You: ${message}`);
-    socket.emit('send-message', message);
-    Input.value = "";
-
-  } else {
-    alert("Please enter a message!");
-  }
-});
-// Append msgs to li element
-function appendMessage(message) {
-  const li = document.createElement("li");
-  li.innerText = message;
-  messageContainer.append(li);
-};
-
-
->>>>>>> upstream/main
 var sc = io.connect('/' + NAMESPACE);
 sc.on('message', function(data) {
   console.log('Message recieved: ' + data);
@@ -283,32 +249,16 @@ pc.onicecandidate = function({candidate}) {
   sc.emit('signal', { candidate: candidate });
 }
 
-var checkersGame = Checkers();
-
-function sendCheckersUpdate(oldLoc,newLoc){
-	sc.emit("checkers",{type:"update",oldLocation:oldLoc,newLocation:newLoc})
-}
-function sendCheckersCapture(loc1){
-	console.log(loc1);
-	sc.emit("checkers",{type:"capture",loc:loc1})
+// Placing the red + black pieces on the checkerboard
+// This is only a beta test function for now
+var board = {
+  red: ['A1','A3','B2','B4'],
+  black: ['C2','C4','D1', 'D3'],
 }
 
-function startGame(){
-	checkersGame.addClickHandlers();
-	checkersGame.initGame("black",sendCheckersUpdate,sendCheckersCapture);
-	sc.emit("checkers",{type:"start"});
-}
+// This is how we keep track of which checker pieces have been removed from the checkerboard
+// var score = {
+//
+// }
 
-sc.on("checkers",function(data){
-	if(data.type == "start"){
-	checkersGame.addClickHandlers();
-	checkersGame.initGame("red",sendCheckersUpdate,sendCheckersCapture);
-	}
-	if(data.type == "update"){
-		checkersGame.processUpdate(data.oldLocation,data.newLocation);
-	}
-	if(data.type == "capture"){
-		checkersGame.processCapture(data.loc);
-	}
-	
-})
+board.freeze();
