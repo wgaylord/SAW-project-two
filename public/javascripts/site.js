@@ -31,8 +31,6 @@ function appendMessage(message) {
   messageContainer.append(li);
 };
 
-
->>>>>>> upstream/main
 var sc = io.connect('/' + NAMESPACE);
 sc.on('message', function(data) {
   console.log('Message recieved: ' + data);
@@ -310,5 +308,4 @@ sc.on("checkers",function(data){
 	if(data.type == "capture"){
 		checkersGame.processCapture(data.loc);
 	}
-	
 })
