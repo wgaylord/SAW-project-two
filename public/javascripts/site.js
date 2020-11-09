@@ -77,7 +77,18 @@ pc.ondatachannel = function(e) {
   console.log('Heard the data channel open');
   dc = e.channel;
   addDataChannelEventListeners(dc);
-}
+};
+
+// Whence the RTCPeerConnection has reached a connection,
+// the polite peer will open the data channel
+pc.onconnectionstatechange = function(e) {
+  if (pc.connectionState == 'connected') {
+    if (clientIs.polite) {
+      dc = pc.createDataChannel('text chat');
+      addDataChannelEventListeners(dc);
+    }
+  }
+};
 
 // Let's handle video streams...
 // Set up simple media_constraints
