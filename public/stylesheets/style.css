@@ -60,7 +60,7 @@ video {
 }
 
 /* Creating the checkerboard */
-#checkerboard {
+.checkerboard {
   display: grid;
   grid-template-columns: repeat(8, 25px);
   grid-template-rows: repeat(8, 25px);
@@ -105,7 +105,7 @@ video {
 }
 
 /* Creating the individuals squares on the checkerboard */
-#checkerboard a {
+.checkerboard a {
   display: block;
   height: 100%;
   width: 100%;
