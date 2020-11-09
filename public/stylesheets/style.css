@@ -58,12 +58,13 @@ video {
   top: 12px;
   right: 12px;
 }
+
 /* Creating the checkerboard */
-.checkerboard {
+#checkerboard {
   display: grid;
-  grid-template-columns: repeat(8, 50px);
-  grid-template-rows: repeat(8, 50px);
-  grid-gap: 4px;
+  grid-template-columns: repeat(8, 25px);
+  grid-template-rows: repeat(8, 25px);
+  grid-gap: 5px;
 }
 
 /* chat style */
@@ -104,7 +105,7 @@ video {
 }
 
 /* Creating the individuals squares on the checkerboard */
-.checkerboard a {
+#checkerboard a {
   display: block;
   height: 100%;
   width: 100%;
