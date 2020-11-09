@@ -45,6 +45,30 @@ function appendMessageToChatLog(log, msg, who)
   }
 }
 
+// Adding a function that will 'listen' to the data channel
+function addDataChannelEventListeners(datachannel) {
+  datachannel.onmessage = function() {
+
+  }
+  // When opening the data channel
+  datachannel.onopen = function() {
+    chatButton.disabled = false;
+    chatInput.disabled = false;
+  }
+  // When closing the data channel
+  datachannel.onclose = function() {
+
+  }
+  // Submitting the chat form and appending the chat log
+  chatForm.addEventListener('Submit', function(e) {
+    e.preventDefault()
+    var msg = chatInput.value;
+    appendMessageToChatLog(chatLog, msg, 'self')
+    datachannel.send(msg);
+    chatInput.value = '';
+  });
+}
+
 // Let's handle video streams...
 // Set up simple media_constraints
 // We are disabling the audio of the video streams
