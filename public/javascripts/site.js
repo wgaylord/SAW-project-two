@@ -48,15 +48,17 @@ function appendMessageToChatLog(log, msg, who)
 // Adding a function that will 'listen' to the data channel
 function addDataChannelEventListeners(datachannel) {
   datachannel.onmessage = function() {
-
+    appendMessageToChatLog(chatLog, e.data, 'peer');
   }
   // When opening the data channel
   datachannel.onopen = function() {
-    chatButton.disabled = false;
-    chatInput.disabled = false;
+    chatButton.disabled = false; // enable the chat button
+    chatInput.disabled = false; // enable the chat input box
   }
   // When closing the data channel
   datachannel.onclose = function() {
+    chatButton.disabled = true; // disable the chat button
+    chatInput.disabled = true; // disable the chat input box
 
   }
   // Submitting the chat form and appending the chat log
@@ -67,6 +69,14 @@ function addDataChannelEventListeners(datachannel) {
     datachannel.send(msg);
     chatInput.value = '';
   });
+}
+
+// This will ONLY work on the receiving end of the data channel connection
+// Listen for the data channel on the peer conenction
+pc.ondatachannel = function(e) {
+  console.log('Heard the data channel open');
+  dc = e.channel;
+  addDataChannelEventListeners(dc);
 }
 
 // Let's handle video streams...
