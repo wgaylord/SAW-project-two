@@ -82,8 +82,10 @@ pc.ondatachannel = function(e) {
 // Whence the RTCPeerConnection has reached a connection,
 // the polite peer will open the data channel
 pc.onconnectionstatechange = function(e) {
+  console.log('Connection state:\n, pc.connectionState');
   if (pc.connectionState == 'connected') {
     if (clientIs.polite) {
+      console.log('Creating a data channel on the initiation side');
       dc = pc.createDataChannel('text chat');
       addDataChannelEventListeners(dc);
     }
