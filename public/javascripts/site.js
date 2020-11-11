@@ -40,11 +40,18 @@ sc.on('message', function(data) {
 var clientIs = {
   makingOffer: false,
   ignoringOffer: false,
-  polite: false
+  polite: false,
+  isSettingRemoteAnswerPending: false
 }
 
-// Eventually, we will set up STUN servers here
-var rtc_config = null;
+// Trying Mozilla's public STUN server stun.services.mozilla.org
+var rtc_config = {
+  iceServers: [
+    {
+      urls: ['stun:stun.l.google.com:19302', 'stun:stun1.l.google.com:19302']
+    }
+  ]
+};
 var pc = new RTCPeerConnection(rtc_config);
 
 // Set a placeholder for the data channel
@@ -216,9 +223,18 @@ async function negotiateConnection() {
 sc.on('signal', async function({ candidate, description }) {
   try {
     if (description) {
+      /*
       console.log('Received a decription...');
       var offerCollision  = (description.type == 'offer') &&
                             (clientIs.makingOffer || pc.signalingState != 'stable')
+      clientIs.ignoringOffer = !clientIs.polite && offerCollision;
+      */
+
+      // WebRTC Specification Perfect Negotiation Pattern
+      var readyForOffer = !clientIs.makingOffer && (pc.signalingState == "stable" || clientIs.isSettingRemoteAnswerPending);
+
+      var offerCollision = description.type == "answer" && !readyForOffer; 
+
       clientIs.ignoringOffer = !clientIs.polite && offerCollision;
 
       if (clientIs.ignoringOffer) {
@@ -228,7 +244,9 @@ sc.on('signal', async function({ candidate, description }) {
       // Set the remote description...
       try {
         console.log('Trying to set a remote description:\n', description);
+        clientIs.SettingRemoteAnswerPending = description.type == "answer";
         await pc.setRemoteDescription(description);
+        clientIs.SettingRemoteAnswerPending = false;
       } catch(error) {
         console.error('Error from setting local description', error);
       }
@@ -266,14 +284,19 @@ sc.on('signal', async function({ candidate, description }) {
         console.log(candidate);
         // Save Safari and other browsers that can't handle an
         // empty string for the `candidate.candidate` value:
-        if (candidate.candidate.length > 1) {
-          await pc.addIceCandidate(candidate);
-        }
+        try {
+          if (candidate.candidate.length > 1) {
+            await pc.addIceCandidate(candidate);
+          }
+        } catch(error) {
+        if (!clientIs.ignoringOffer) {
+          throw error;
+          }
+      }
     }
   } catch(error) {
     console.error(error);
   }
-
 });
 
 // Logic to send candidate
