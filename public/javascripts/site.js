@@ -281,6 +281,10 @@ pc.onicecandidate = function({candidate}) {
   sc.emit('signal', { candidate: candidate });
 }
 
+
+var startGameButton = document.querySelector('#start-game');
+startGameButton.addEventListener('click', startGame);
+
 var checkersGame = Checkers();
 
 function sendCheckersUpdate(oldLoc,newLoc){
@@ -293,6 +297,7 @@ function sendCheckersCapture(loc1){
 
 function startGame(){
 	checkersGame.addClickHandlers();
+    startGameButton.style.visibility = "hidden"
 	checkersGame.initGame("black",sendCheckersUpdate,sendCheckersCapture);
 	sc.emit("checkers",{type:"start"});
 }
@@ -300,6 +305,7 @@ function startGame(){
 sc.on("checkers",function(data){
 	if(data.type == "start"){
 	checkersGame.addClickHandlers();
+    startGameButton.style.visibility = "hidden"
 	checkersGame.initGame("red",sendCheckersUpdate,sendCheckersCapture);
 	}
 	if(data.type == "update"){

@@ -59,13 +59,7 @@ video {
   right: 12px;
 }
 
-/* Creating the checkerboard */
-.checkerboard {
-  display: grid;
-  grid-template-columns: repeat(8, 25px);
-  grid-template-rows: repeat(8, 25px);
-  grid-gap: 5px;
-}
+
 
 /* chat style */
 /* TODO add new style to chat box */
@@ -104,42 +98,54 @@ video {
   height: 100%;
 }
 
-/* Creating the individuals squares on the checkerboard */
-.checkerboard a {
+
+
+#checkerboard table, th, td {
+   border: 1px solid black;
+  height: 60px;
+  width: 20px;
+}
+
+.fill {
   display: block;
   height: 100%;
-  width: 100%;
+  width: 100%
 }
 
 .red {
   background: red;
+
 }
 
 .black {
   background: black;
+ 
 }
 
 .redPiece {
     
     background-color: #fa7587;
+
     
 }
 
 .blackPiece {
     
     background-color: #3f556b;
+
    
 }
 
 .redKing {
     
     background-color: #ff266b;
-    
+
 }
 
 .blackKing {
     
     background-color: #71aae3;
+  
    
 }
 
@@ -148,6 +154,7 @@ video {
   background: black;
   animation: flash 0.7s;
   animation-iteration-count: infinite;
+
    
 }
 
