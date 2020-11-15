@@ -310,8 +310,8 @@ startGameButton.addEventListener('click', startGame);
 
 var checkersGame = Checkers();
 
-function sendCheckersUpdate(oldLoc,newLoc){
-	sc.emit("checkers",{type:"update",oldLocation:oldLoc,newLocation:newLoc})
+function sendCheckersUpdate(oldLoc,newLoc,capture){
+	sc.emit("checkers",{type:"update",oldLocation:oldLoc,newLocation:newLoc,didCapture:capture})
 }
 function sendCheckersCapture(loc1){
 	console.log(loc1);
@@ -332,7 +332,7 @@ sc.on("checkers",function(data){
 	checkersGame.initGame("red",sendCheckersUpdate,sendCheckersCapture);
 	}
 	if(data.type == "update"){
-		checkersGame.processUpdate(data.oldLocation,data.newLocation);
+		checkersGame.processUpdate(data.oldLocation,data.newLocation,data.didCapture);
 	}
 	if(data.type == "capture"){
 		checkersGame.processCapture(data.loc);
