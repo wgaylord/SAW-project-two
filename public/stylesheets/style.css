@@ -28,6 +28,48 @@ button {
   background-color: green;
   color: #EEE;
 }
+/* chat style */
+#chat-form {
+  display: flex;
+}
+#chat-form > input {
+  outline: none;
+}
+#chat-form > input:focus {
+  border-color: #A5F;
+}
+#chat-form > button {
+  width: 5%;
+  margin-left: 6px;
+}
+#chat-form > * {
+  flex: 1 1 auto;
+}
+
+ul#chat-log {
+  height: 15vh;
+  overflow: scroll;
+  margin-bottom: 6px;
+  display: flex;
+  flex-flow: column nowrap;
+  padding: 6px;
+}
+ul#chat-log li {
+  margin-bottom: 6px;
+  padding: 6px;
+  background-color: #CCC;
+  border-radius: 6px;
+  flex: 1 0 min-content;
+  max-width: 60%;
+}
+ul#chat-log li.peer {
+  margin-right: auto;
+}
+ul#chat-log li.self {
+  margin-left: auto;
+  background-color: #A5F;
+  color: #FFF;
+}
 
 #header,
 #app {
@@ -59,17 +101,11 @@ video {
   right: 12px;
 }
 
-/* Creating the checkerboard */
-.checkerboard {
-  display: grid;
-  grid-template-columns: repeat(8, 25px);
-  grid-template-rows: repeat(8, 25px);
-  grid-gap: 5px;
-}
+
 
 /* chat style */
 /* TODO add new style to chat box */
-#chat-window {
+/* #chat-window {
   background-color: gray;
   height: 300px;
   max-height: 40%;
@@ -102,53 +138,66 @@ video {
   background-color: green;
   border: solid 1px;
   height: 100%;
+} */
+
+
+
+#checkerboard table, th, td {
+   border: 1px solid black;
+  height: 60px;
+  width: 20px;
 }
 
-/* Creating the individuals squares on the checkerboard */
-.checkerboard a {
+.fill {
   display: block;
   height: 100%;
-  width: 100%;
+  width: 100%
 }
 
 .red {
   background: red;
+
 }
 
 .black {
   background: black;
+
 }
 
 .redPiece {
-    
+
     background-color: #fa7587;
-    
+
+
 }
 
 .blackPiece {
-    
+
     background-color: #3f556b;
-   
+
+
 }
 
 .redKing {
-    
+
     background-color: #ff266b;
-    
+
 }
 
 .blackKing {
-    
+
     background-color: #71aae3;
-   
+
+
 }
 
 .avaliableMove {
-    
+
   background: black;
   animation: flash 0.7s;
   animation-iteration-count: infinite;
-   
+
+
 }
 
 @keyframes flash {

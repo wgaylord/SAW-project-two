@@ -11,16 +11,18 @@ function Checkers(){
 
 	function availableMovements (location,board,king=false,opponentMarker="opponentPiece",emptyMarker="empty"){
 	    let movements = [];
+        let jump = false;
 	    let column = location%8;
 	    if(location > 8){ //If at top row can't move up!
 			if(column != 0){
 				if(board[location-7] == emptyMarker){ //Check diagonally up right one location
-					movements.push(location-7);
+					movements = [location-7];
 				}else{
 					if(board[location-14] == emptyMarker){ //Check diagonally up right two locations
 						if(column != 7){
-							if(board[location-7] == opponentMarker){ //Check diagonally up right one location for opponent
-								movements.push(location-14);
+							if(checkPiece(location-7)){ //Check diagonally up right one location for opponent
+								movements = [location-14]
+                                jump = true;
 							}
 						}
 					}
@@ -29,12 +31,18 @@ function Checkers(){
 			}
 			if(column != 1){
 				if(board[location-9] == emptyMarker){ //Check diagonally up left one location
-					movements.push(location-9);
+					if(!jump){
+                        movements.push(location-9);
+                    }
 				}else{
 					if(board[location-18] == emptyMarker){ //Check diagonally up left two locations
 						if(column != 2){
-							if(board[location-9] == opponentMarker){  //Check diagonally up left one location for opponent
+							if(checkPiece(location-9)){  //Check diagonally up left one location for opponent
+                                if(!jump){
+                                    movements = []
+                                }
 								movements.push(location-18);
+                                jump = true;
 							}
 						}
 					}
@@ -44,11 +52,16 @@ function Checkers(){
 	    if(king & location < 57){ //Check if king and also if in bottom row
 			if(column != 1){
 				if(board[location+7] == emptyMarker){ //Check diagonally down left one location
-					movements.push(location+7);
+                    if(!jump){
+                        movements.push(location+7);
+                    }
 				}else{
 					if(board[location+14] == emptyMarker){ //Check diagonally down left two locations
 						if(column != 2){
-							if(board[location+7] == opponentMarker){  //Check diagonally down left one location for opponent
+							if(checkPiece(location+7)){  //Check diagonally down left one location for opponent
+                                if(!jump){
+                                    movements = []
+                                }
 								movements.push(location+14);
 							}
 						}
@@ -57,11 +70,16 @@ function Checkers(){
 			}
 			if(column != 0){
 				if(board[location+9] == emptyMarker){ //Check diagonally down right one location
-					movements.push(location+9);
+                    if(!jump){
+                        movements.push(location+9);
+                    }
 				}else{
 					if(board[location+18] == emptyMarker){ //Check diagonally down right two locations
 						if(column != 7){
-							if(board[location+9] == opponentMarker){ //Check diagonally down right one location for opponent
+							if(checkPiece(location+9)){ //Check diagonally down right one location for opponent
+                                if(!jump){
+                                    movements = []
+                                }
 								movements.push(location+18);
 							}
 						}
@@ -92,7 +110,7 @@ function Checkers(){
 	
 
 	//Convert remote locations ot local
-	const convertSides = {63:3,61:4,59:6,57:8,56:9,54:11,52:13,50:15,47:18,45:20,43:22,41:24,40:25,38:27,36:29,34:31,31:34,29:36,27:38,25:40,24:41,22:43,20:45,18:47,15:50,13:52,11:54,9:56,8:57,6:59,4:61,2:63};
+	const convertSides = {63:2,61:4,59:6,57:8,56:9,54:11,52:13,50:15,47:18,45:20,43:22,41:24,40:25,38:27,36:29,34:31,31:34,29:36,27:38,25:40,24:41,22:43,20:45,18:47,15:50,13:52,11:54,9:56,8:57,6:59,4:61,2:63};
 
 	//Game State
 	var checkerState ={board:[],State:"waiting_selection",SelectedPiece:0,Moves:[],color:""};
@@ -143,12 +161,13 @@ function Checkers(){
 				checkerState.State = "waiting_other_player";
 				checkerState.board[click_location] = checkerState.board[checkerState.SelectedPiece];
 				checkerState.board[checkerState.SelectedPiece] = "empty";
-				checkerState.sendUpdate(checkerState.SelectedPiece,click_location);
 				checkKingMe();
 				capturedPiece = getCaptured(checkerState.SelectedPiece,click_location)
+                checkerState.sendUpdate(checkerState.SelectedPiece,click_location,capturedPiece > 0);
 				if(capturedPiece > 0){
 					checkerState.board[capturedPiece] = "empty";
 					checkerState.sendCapture(capturedPiece);
+                    checkerState.State = "waiting_selection";
 				}
 				clearState();
 				updateBoard();
@@ -169,14 +188,16 @@ function Checkers(){
 	
 
 	//Process update from remote
-	function processUpdate(oldLocation,newLocation){
+	function processUpdate(oldLocation,newLocation,didCapture){
 		checkerState.board[convertSides[newLocation]]=checkerState.board[convertSides[oldLocation]]
 		checkerState.board[convertSides[oldLocation]] = "empty"
 		checkRemoteKingMe();
 			
 			
 			//Ready to own selection
-		checkerState.State = "waiting_selection";
+        if(!didCapture){
+            checkerState.State = "waiting_selection";
+        }
 			//Lastly update board
 		
 		updateBoard();
@@ -190,6 +211,10 @@ function Checkers(){
 	function checkRemoteKingMe(){
 		[57,59,61,63].forEach(function(x){if(checkerState.board[x]=="opponentPiece"){checkerState.board[x]="opponentKing"}})
 	}
+
+    function checkPiece(x){
+        return checkerState.board[x] == "opponentPiece" | checkerState.board[x] == "opponentKing"
+    }
 
 	//Update Board
 	function updateBoard(){
