@@ -1,36 +1,5 @@
-// Use 'sc' for the signlaing channel...
 'use strict';
-// Referance: https://blog.crowdbotics.com/build-chat-app-with-nodejs-socket-io/
-// Load the socket.io-client
-const socket = io();
-
-const messageContainer = document.querySelector("#message-container");
-const chat = document.querySelector("#chat-form");
-const Input = document.querySelector("#chat-input");
-// Function to get chat message event
-socket.on('chat-message', function(data) {
-  appendMessage(`${data.message}`);
-});
-// Function to print out the chat message event
-chat.addEventListener('submit', function(e) {
-  e.preventDefault();
-  const message = Input.value;
-  if (message){
-    appendMessage(`You: ${message}`);
-    socket.emit('send-message', message);
-    Input.value = "";
-
-  } else {
-    alert("Please enter a message!");
-  }
-});
-// Append msgs to li element
-function appendMessage(message) {
-  const li = document.createElement("li");
-  li.innerText = message;
-  messageContainer.append(li);
-};
-
+// Use 'sc' for the signlaing channel...
 var sc = io.connect('/' + NAMESPACE);
 sc.on('message', function(data) {
   console.log('Message recieved: ' + data);
@@ -41,7 +10,7 @@ var clientIs = {
   makingOffer: false,
   ignoringOffer: false,
   polite: false,
-  isSettingRemoteAnswerPending: false
+  settingRemoteAnswerPending: false
 }
 
 // Trying Mozilla's public STUN server stun.services.mozilla.org
@@ -58,29 +27,27 @@ var pc = new RTCPeerConnection(rtc_config);
 var dc = null;
 
 // Add the data channel-backed DOM elements for the chat box
-var chatBox = document.querySelector('aside.chat');
 var chatLog = document.querySelector('#chat-log');
 var chatForm = document.querySelector('#chat-form');
 var chatInput = document.querySelector('#message');
 var chatButton = document.querySelector('#send-button');
 
 // Creating a function that will append the message to the chat log
-function appendMessageToChatLog(log, msg, who) 
+function appendMessageToChatLog(log, msg, who)
 {
   var li = document.createElement('li');
   var msg = document.createTextNode(msg);
   li.className = who;
   li.appendChild(msg);
   log.appendChild(li);
-  if (chatBox.scrollTo) 
-  {
-    chatBox.scrollTo({
-      top: chatBox.scrollHeight,
+  if (chatLog.scrollTo) {
+    chatLog.scrollTo({
+      top: chatLog.scrollHeight,
       behavior: 'smooth'
     });
-  } else 
+  } else
   {
-    chatBox.scrollTop = chatBox.scrollHeight;
+    chatLog.scrollTop = chatLog.scrollHeight;
   }
 }
 
@@ -110,14 +77,6 @@ function addDataChannelEventListeners(datachannel) {
   });
 }
 
-// This will ONLY work on the receiving end of the data channel connection
-// Listen for the data channel on the peer conenction
-pc.ondatachannel = function(e) {
-  console.log('Heard the data channel open');
-  dc = e.channel;
-  addDataChannelEventListeners(dc);
-};
-
 // Whence the RTCPeerConnection has reached a connection,
 // the polite peer will open the data channel
 pc.onconnectionstatechange = function(e) {
@@ -130,6 +89,15 @@ pc.onconnectionstatechange = function(e) {
     }
   }
 };
+// This will ONLY work on the receiving end of the data channel connection
+// Listen for the data channel on the peer conenction
+pc.ondatachannel = function(e) {
+  console.log('Heard the data channel open');
+  dc = e.channel;
+  addDataChannelEventListeners(dc);
+};
+
+
 
 // Let's handle video streams...
 // Set up simple media_constraints
@@ -208,7 +176,7 @@ async function negotiateConnection() {
         // are NOT cool. So because we're making an
         // offer, we need to prepare an offer:
         var offer = await pc.createOffer();
-        await pc.setLocalDescription(new RTCSessionDescription(offer));
+        await pc.setLocalDescription(offer);
       } finally {
         sc.emit('signal', { description: pc.localDescription });
       }
@@ -223,17 +191,11 @@ async function negotiateConnection() {
 sc.on('signal', async function({ candidate, description }) {
   try {
     if (description) {
-      /*
-      console.log('Received a decription...');
-      var offerCollision  = (description.type == 'offer') &&
-                            (clientIs.makingOffer || pc.signalingState != 'stable')
-      clientIs.ignoringOffer = !clientIs.polite && offerCollision;
-      */
 
       // WebRTC Specification Perfect Negotiation Pattern
-      var readyForOffer = !clientIs.makingOffer && (pc.signalingState == "stable" || clientIs.isSettingRemoteAnswerPending);
+      var readyForOffer = !clientIs.makingOffer && (pc.signalingState == "stable" || clientIs.settingRemoteAnswerPending);
 
-      var offerCollision = description.type == "answer" && !readyForOffer; 
+      var offerCollision = description.type == "answer" && !readyForOffer;
 
       clientIs.ignoringOffer = !clientIs.polite && offerCollision;
 
@@ -281,7 +243,7 @@ sc.on('signal', async function({ candidate, description }) {
 
     } else if (candidate) {
         console.log('Received a candidate:');
-        console.log(candidate);
+        //console.log(candidate);
         // Save Safari and other browsers that can't handle an
         // empty string for the `candidate.candidate` value:
         try {
