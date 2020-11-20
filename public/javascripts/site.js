@@ -53,8 +53,8 @@ function appendMessageToChatLog(log, msg, who)
 
 // Adding a function that will 'listen' to the data channel
 function addDataChannelEventListeners(datachannel) {
-  datachannel.onmessage = function() {
-    appendMessageToChatLog(chatLog, e.data, 'peer');
+  datachannel.onmessage = function(e) {
+    appendMessageToChatLog(chatLog,e.data,'peer');
   }
   // When opening the data channel
   datachannel.onopen = function() {
@@ -68,10 +68,10 @@ function addDataChannelEventListeners(datachannel) {
 
   }
   // Submitting the chat form and appending the chat log
-  chatForm.addEventListener('Submit', function(e) {
+  chatForm.addEventListener('submit', function(e) {
     e.preventDefault()
     var msg = chatInput.value;
-    appendMessageToChatLog(chatLog, msg, 'self')
+    appendMessageToChatLog(chatLog, msg, 'self');
     datachannel.send(msg);
     chatInput.value = '';
   });

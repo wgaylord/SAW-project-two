@@ -22,24 +22,24 @@ block content
 
       aside.chat
         ul#chat-log
-        
-      form(
-        id="chat-form"
-        action="null"
-      )
-      input(
-        disabled="true"
-        id="message"
-        name="message"
-        type="text"
-        autocomplete="off"
-      )
-      button(
-        disabled="true"
-        id="send-button"
-        name="send-button"
-        type="submit"
-      ) Send
+
+        form(
+          id="chat-form"
+          action="null"
+        )
+          input(
+            disabled="true"
+            id="message"
+            name="message"
+            type="text"
+            autocomplete="off"
+          )
+          button(
+            disabled="true"
+            id="send-button"
+            name="send-button"
+            type="submit"
+          ) Send
 
     div#game
         button#start-game(type="submit") Start Game
