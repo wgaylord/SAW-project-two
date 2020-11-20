@@ -14,7 +14,7 @@ html {
 h1 {
   font-weight: bold;
 }
-
+input,
 button {
   font-size: inherit;
   line-height: inherit;
@@ -23,6 +23,12 @@ button {
   color: #222;
   border: 1px solid #DDD;
   border-radius: 5px;
+}
+input {
+  background-color: inherit;
+}
+button:disabled {
+  color: #CCC;
 }
 #answer-button {
   background-color: green;
@@ -67,7 +73,7 @@ ul#chat-log li.peer {
 }
 ul#chat-log li.self {
   margin-left: auto;
-  background-color: #A5F;
+  background-color: #63ff55;
   color: #FFF;
 }
 
