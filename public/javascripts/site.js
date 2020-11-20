@@ -26,6 +26,8 @@ var pc = new RTCPeerConnection(rtc_config);
 // Set a placeholder for the data channel
 var dc = null;
 
+var gameDC = null; //Game data channel
+
 // Add the data channel-backed DOM elements for the chat box
 var chatLog = document.querySelector('#chat-log');
 var chatForm = document.querySelector('#chat-form');
@@ -77,6 +79,20 @@ function addDataChannelEventListeners(datachannel) {
   });
 }
 
+function addGameDataChannelEventListeners(datachannel){
+    datachannel.onmessage = function(e) {
+        checkersData(e.data);
+  }
+  // When opening the data channel
+  datachannel.onopen = function() {
+    
+  }
+  // When closing the data channel
+  datachannel.onclose = function() {
+
+  }
+}
+
 // Whence the RTCPeerConnection has reached a connection,
 // the polite peer will open the data channel
 pc.onconnectionstatechange = function(e) {
@@ -86,15 +102,23 @@ pc.onconnectionstatechange = function(e) {
       console.log('Creating a data channel on the initiation side');
       dc = pc.createDataChannel('text chat');
       addDataChannelEventListeners(dc);
+      gameDC = pc.createDataChannel('game data')
+      addGameDataChannelEventListeners(gameDC);
     }
   }
 };
 // This will ONLY work on the receiving end of the data channel connection
 // Listen for the data channel on the peer conenction
 pc.ondatachannel = function(e) {
-  console.log('Heard the data channel open');
-  dc = e.channel;
-  addDataChannelEventListeners(dc);
+  console.log('Heard a data channel open');
+  if(e.channel.label == 'text chat'){
+    dc = e.channel;
+    addDataChannelEventListeners(dc);
+  }
+  if(e.channel.label == 'game data'){
+    gameDC = e.channel;
+    addGameDataChannelEventListeners(gameDC);
+  }
 };
 
 
@@ -102,7 +126,7 @@ pc.ondatachannel = function(e) {
 // Let's handle video streams...
 // Set up simple media_constraints
 // We are disabling the audio of the video streams
-var media_constraints = { video: true, audio: false };
+var media_constraints = { video: true, audio: true };
 
 // Handle self video
 var selfVideo = document.querySelector('#self-video');
@@ -195,7 +219,7 @@ sc.on('signal', async function({ candidate, description }) {
       // WebRTC Specification Perfect Negotiation Pattern
       var readyForOffer = !clientIs.makingOffer && (pc.signalingState == "stable" || clientIs.settingRemoteAnswerPending);
 
-      var offerCollision = description.type == "answer" && !readyForOffer;
+      var offerCollision = description.type == "offer" && !readyForOffer;
 
       clientIs.ignoringOffer = !clientIs.polite && offerCollision;
 
@@ -206,7 +230,7 @@ sc.on('signal', async function({ candidate, description }) {
       // Set the remote description...
       try {
         console.log('Trying to set a remote description:\n', description);
-        clientIs.SettingRemoteAnswerPending = description.type == "answer";
+        clientIs.SettingRemoteAnswerPending = description.type == "offer";
         await pc.setRemoteDescription(description);
         clientIs.SettingRemoteAnswerPending = false;
       } catch(error) {
@@ -273,21 +297,23 @@ startGameButton.addEventListener('click', startGame);
 var checkersGame = Checkers();
 
 function sendCheckersUpdate(oldLoc,newLoc,capture){
-	sc.emit("checkers",{type:"update",oldLocation:oldLoc,newLocation:newLoc,didCapture:capture})
+	gameDC.send(JSON.stringify({type:"update",oldLocation:oldLoc,newLocation:newLoc,didCapture:capture}));
 }
 function sendCheckersCapture(loc1){
-	console.log(loc1);
-	sc.emit("checkers",{type:"capture",loc:loc1})
+	gameDC.send(JSON.stringify({type:"capture",loc:loc1}));
 }
 
 function startGame(){
+    if(gameDC != null & gameDC.readyState == "open"){
 	checkersGame.addClickHandlers();
     startGameButton.style.visibility = "hidden"
 	checkersGame.initGame("black",sendCheckersUpdate,sendCheckersCapture);
-	sc.emit("checkers",{type:"start"});
+	gameDC.send(JSON.stringify({type:"start"}));
+    }
 }
 
-sc.on("checkers",function(data){
+function checkersData(data){
+    data = JSON.parse(data);
 	if(data.type == "start"){
 	checkersGame.addClickHandlers();
     startGameButton.style.visibility = "hidden"
@@ -299,4 +325,4 @@ sc.on("checkers",function(data){
 	if(data.type == "capture"){
 		checkersGame.processCapture(data.loc);
 	}
-})
+}
