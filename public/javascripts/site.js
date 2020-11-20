@@ -10,11 +10,8 @@ var clientIs = {
   makingOffer: false,
   ignoringOffer: false,
   polite: false,
-<<<<<<< HEAD
-  isSettingRemoteAnswerPending: false
-=======
+  isSettingRemoteAnswerPending: false,
   settingRemoteAnswerPending: false
->>>>>>> upstream/main
 }
 
 // Trying Mozilla's public STUN server stun.services.mozilla.org
@@ -100,8 +97,6 @@ pc.ondatachannel = function(e) {
   dc = e.channel;
   addDataChannelEventListeners(dc);
 };
-
-
 
 // Let's handle video streams...
 // Set up simple media_constraints
@@ -195,19 +190,12 @@ async function negotiateConnection() {
 sc.on('signal', async function({ candidate, description }) {
   try {
     if (description) {
-<<<<<<< HEAD
       /*
       console.log('Received a decription...');
-      var offerCollision  = (description.type == 'offer') &&
-                            (clientIs.makingOffer || pc.signalingState != 'stable')
-=======
-
+      var offerCollision  = (description.type == 'offer') && (clientIs.makingOffer || pc.signalingState != 'stable')
       // WebRTC Specification Perfect Negotiation Pattern
       var readyForOffer = !clientIs.makingOffer && (pc.signalingState == "stable" || clientIs.settingRemoteAnswerPending);
-
       var offerCollision = description.type == "answer" && !readyForOffer;
-
->>>>>>> upstream/main
       clientIs.ignoringOffer = !clientIs.polite && offerCollision;
       */
 
@@ -259,7 +247,6 @@ sc.on('signal', async function({ candidate, description }) {
             sc.emit('signal', { description: pc.localDescription });
           }
       }
-
     } else if (candidate) {
         console.log('Received a candidate:');
         //console.log(candidate);
@@ -284,7 +271,6 @@ sc.on('signal', async function({ candidate, description }) {
 pc.onicecandidate = function({candidate}) {
   sc.emit('signal', { candidate: candidate });
 }
-
 
 var startGameButton = document.querySelector('#start-game');
 startGameButton.addEventListener('click', startGame);
