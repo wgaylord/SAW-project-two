@@ -35,8 +35,8 @@ namespaces.on('connection', function(socket) {
   socket.emit('message', `Successfully connected on namespace: ${namespace.name}`);
   socket.on('calling', function() {
     socket.broadcast.emit('calling');
-});
-// Handle signaling events and their destructured object data
+  });
+  // Handle signaling events and their destructured object data
   socket.on('signal', function({ description, candidate}) {
     console.log(`Received a signal from ${socket.id}`);
     console.log({description, candidate});
@@ -46,8 +46,7 @@ namespaces.on('connection', function(socket) {
   });
   socket.on('checkers', function(data) {
     socket.broadcast.emit('checkers',data);
-});
-
+  });
 });
 
 // Initialize a chat connection
