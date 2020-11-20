@@ -175,7 +175,7 @@ async function negotiateConnection() {
         // are NOT cool. So because we're making an
         // offer, we need to prepare an offer:
         var offer = await pc.createOffer();
-        await pc.setLocalDescription(offer);
+        await pc.setLocalDescription(new RTCPeerConnection(offer));
       } finally {
         sc.emit('signal', { description: pc.localDescription });
       }
