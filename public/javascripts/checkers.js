@@ -1,14 +1,11 @@
 function Checkers() {
-
     checkers = new Object()
-
     /*
      * Returns a list of all avaiable move locations for any piece
      * location is a number between 1 and 64. Number based starting in the top left corner at 1
      * board an array of length 64 that represents the checker board
      * king if the piece is a king or not
      */
-
     function availableMovements(location, board, king = false, opponentMarker = "opponentPiece", emptyMarker = "empty") {
         let movements = [];
         let jump = false;
@@ -91,7 +88,6 @@ function Checkers() {
         return movements; //Return all possible movements
     }
 
-
     function getCaptured(oldLocation, newLocation) {
         if (newLocation == oldLocation - 14) {
             return oldLocation - 7;
@@ -107,7 +103,6 @@ function Checkers() {
         }
         return 0;
     }
-
 
     //Convert remote locations ot local
     const convertSides = {
@@ -230,7 +225,6 @@ function Checkers() {
         updateBoard();
     }
 
-
     //Process update from remote
     function processUpdate(oldLocation, newLocation, didCapture) {
         checkerState.board[convertSides[newLocation]] = checkerState.board[convertSides[oldLocation]]
@@ -334,12 +328,10 @@ function Checkers() {
                 BoardClickHandler(x);
             });
         });
-
     }
     checkers.addClickHandlers = registerClickHandlers;
     checkers.initGame = initGame;
     checkers.processUpdate = processUpdate;
     checkers.processCapture = processCapture;
     return checkers;
-
 }

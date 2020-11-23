@@ -1,5 +1,6 @@
 'use strict';
 
+// Assigning variables for node package handlers
 const express = require('express');
 const router = express.Router();
 const util = require('../lib/utilities.js');
@@ -9,6 +10,7 @@ router.get('/', function(req, res, next) {
   res.redirect(`/${util.randomRoom(3,4,3)}`)
 });
 
+// Creating a room for the users to play in
 router.get('/:room([a-z]{3}-[a-z]{4}-[a-z]{3}$)', function(req, res, next) {
   // TODO: (Potentially)
   // - Handle user authentication

@@ -27,7 +27,8 @@ var pc = new RTCPeerConnection(rtc_config);
 // Set a placeholder for the data channel
 var dc = null;
 
-var gameDC = null; //Game data channel
+// Setting placeholder for game data channel
+var gameDC = null;
 
 // Add the data channel-backed DOM elements for the chat box
 var chatLog = document.querySelector('#chat-log');
@@ -80,6 +81,7 @@ function addDataChannelEventListeners(datachannel) {
   });
 }
 
+// Adding game data channel listeners
 function addGameDataChannelEventListeners(datachannel){
     datachannel.onmessage = function(e) {
         checkersData(e.data);
@@ -162,6 +164,7 @@ pc.ontrack = function(track) {
 var callButton = document.querySelector('#call-button');
 callButton.addEventListener('click', startCall);
 
+// Creating a function to start the call between the two users
 function startCall() {
   console.log('This is the calling side of the connection...');
   callButton.hidden = true;
@@ -211,6 +214,7 @@ async function negotiateConnection() {
   }
 }
 
+// Detecting if there is a signal or not
 sc.on('signal', async function({ candidate, description }) {
   try {
     if (description) {
@@ -294,11 +298,15 @@ pc.onicecandidate = function({candidate}) {
   sc.emit('signal', { candidate: candidate });
 }
 
+// Creating button to start the checkers game
 var startGameButton = document.querySelector('#start-game');
 startGameButton.addEventListener('click', startGame);
 
+// Creating local variable for our checkers game
 var checkersGame = Checkers();
 
+// Creating a function that will update the checkers game data channel
+// When game pieces are moved across the board
 function sendCheckersUpdate(oldLoc,newLoc,capture){
 	gameDC.send(JSON.stringify({type:"update",oldLocation:oldLoc,newLocation:newLoc,didCapture:capture}));
 }
@@ -306,6 +314,7 @@ function sendCheckersCapture(loc1){
 	gameDC.send(JSON.stringify({type:"capture",loc:loc1}));
 }
 
+// Creating function for starting the checkers game
 function startGame(){
     if(gameDC != null & gameDC.readyState == "open"){
 	checkersGame.addClickHandlers();
@@ -315,6 +324,7 @@ function startGame(){
     }
 }
 
+// Creating function for our checkers game data
 function checkersData(data){
     data = JSON.parse(data);
 	if(data.type == "start"){

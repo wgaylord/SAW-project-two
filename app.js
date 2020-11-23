@@ -1,26 +1,23 @@
 'use strict';
 
+// Assigning variables for node package handlers
 const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const io = require('socket.io')();
-
 const indexRouter = require('./routes/index');
-
 const app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
-
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
 app.use('/', indexRouter);
 
 // send a message on successful socket connection
@@ -28,8 +25,10 @@ app.use('/', indexRouter);
 //   socket.emit('message', 'Successfully connected.');
 // });
 
+// Creating a room
 const namespaces = io.of(/^\/[a-z]{3}-[a-z]{4}-[a-z]{3}$/);
 
+// Displaying message for a successful connection
 namespaces.on('connection', function(socket) {
   const namespace = socket.nsp;
   socket.emit('message', `Successfully connected on namespace: ${namespace.name}`);
