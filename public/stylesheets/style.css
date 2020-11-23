@@ -17,10 +17,10 @@ input,
 button {
   font-size: inherit;
   line-height: inherit;
-  padding: 6px;
+  padding: 10px;
   background-color: #EEE;
-  color: #222;
-  border: 1px solid #DDD;
+  color: black;
+  border: 5px solid black;
   border-radius: 5px;
 }
 input {
@@ -41,7 +41,8 @@ button:disabled {
   outline: none;
 }
 #chat-form > input:focus {
-  border-color: orange;
+  border-color: black;
+  border: 5px solid;
 }
 #chat-form > button {
   width: 5%;
@@ -61,7 +62,8 @@ ul#chat-log {
 ul#chat-log li {
   margin-bottom: 6px;
   padding: 6px;
-  background-color: gray;
+  background-color: orange;
+  color: black;
   border-radius: 6px;
   flex: 1 0 min-content;
   max-width: 60%;
@@ -95,7 +97,7 @@ video {
   box-sizing: border-box;
   width: 100%;
   background-color: #222;
-  border: 2px solid #DDD;
+  border: 5px solid white;
 }
 #self-video {
   position: absolute;
