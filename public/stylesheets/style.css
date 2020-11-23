@@ -35,9 +35,10 @@ button:disabled {
   border-radius: 1px;
 }
 #start-game {
-  background-color: lawngreen;
+  background-color: lightskyblue;
   color: black;
   padding: 5px;
+  border-radius: 5px;
 }
 /* chat style */
 #chat-form {
