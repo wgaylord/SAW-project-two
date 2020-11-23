@@ -32,6 +32,7 @@ button:disabled {
 #answer-button {
   background-color: green;
   color: black;
+  border-radius: 5px;
 }
 /* chat style */
 #chat-form {
@@ -47,6 +48,7 @@ button:disabled {
 #chat-form > button {
   width: 5%;
   margin-left: 6px;
+  border-radius: 2px;
 }
 #chat-form > * {
   flex: 1 1 auto;
@@ -62,8 +64,8 @@ ul#chat-log {
 ul#chat-log li {
   margin-bottom: 6px;
   padding: 6px;
-  background-color: orange;
-  color: black;
+  background-color: black;
+  color: crimson;
   border-radius: 6px;
   flex: 1 0 min-content;
   max-width: 60%;
@@ -73,8 +75,8 @@ ul#chat-log li.peer {
 }
 ul#chat-log li.self {
   margin-left: auto;
-  background-color: #63ff55;
-  color: white;
+  background-color: crimson;
+  color: black;
 }
 #header,
 #app {
