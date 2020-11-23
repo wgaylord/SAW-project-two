@@ -20,7 +20,7 @@ button {
   padding: 10px;
   background-color: #EEE;
   color: black;
-  border: 5px solid black;
+  border: 2px solid;
   border-radius: 5px;
 }
 input {
@@ -42,7 +42,7 @@ button:disabled {
 }
 #chat-form > input:focus {
   border-color: black;
-  border: 5px solid;
+  border: 3px solid;
 }
 #chat-form > button {
   width: 5%;
@@ -74,7 +74,7 @@ ul#chat-log li.peer {
 ul#chat-log li.self {
   margin-left: auto;
   background-color: #63ff55;
-  color: #FFF;
+  color: white;
 }
 #header,
 #app {
@@ -97,7 +97,7 @@ video {
   box-sizing: border-box;
   width: 100%;
   background-color: #222;
-  border: 5px solid white;
+  border: 3px solid white;
 }
 #self-video {
   position: absolute;
@@ -159,6 +159,7 @@ video {
 }
 .redPiece {
     background-color: #fa7587;
+    
 }
 .blackPiece {
     background-color: #3f556b;
