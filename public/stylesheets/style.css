@@ -10,7 +10,6 @@ html {
   font-size: 20px;
   line-height: 24px;
 }
-
 h1 {
   font-weight: bold;
 }
@@ -18,10 +17,10 @@ input,
 button {
   font-size: inherit;
   line-height: inherit;
-  padding: 6px;
+  padding: 10px;
   background-color: #EEE;
-  color: #222;
-  border: 1px solid #DDD;
+  color: black;
+  border: 2px solid;
   border-radius: 5px;
 }
 input {
@@ -32,7 +31,8 @@ button:disabled {
 }
 #answer-button {
   background-color: green;
-  color: #EEE;
+  color: black;
+  border-radius: 5px;
 }
 /* chat style */
 #chat-form {
@@ -42,16 +42,17 @@ button:disabled {
   outline: none;
 }
 #chat-form > input:focus {
-  border-color: #A5F;
+  border-color: black;
+  border: 3px solid;
 }
 #chat-form > button {
   width: 5%;
   margin-left: 6px;
+  border-radius: 2px;
 }
 #chat-form > * {
   flex: 1 1 auto;
 }
-
 ul#chat-log {
   height: 15vh;
   overflow: scroll;
@@ -63,7 +64,8 @@ ul#chat-log {
 ul#chat-log li {
   margin-bottom: 6px;
   padding: 6px;
-  background-color: #CCC;
+  background-color: black;
+  color: crimson;
   border-radius: 6px;
   flex: 1 0 min-content;
   max-width: 60%;
@@ -73,10 +75,9 @@ ul#chat-log li.peer {
 }
 ul#chat-log li.self {
   margin-left: auto;
-  background-color: #63ff55;
-  color: #FFF;
+  background-color: crimson;
+  color: black;
 }
-
 #header,
 #app {
   box-sizing: border-box;
@@ -98,7 +99,7 @@ video {
   box-sizing: border-box;
   width: 100%;
   background-color: #222;
-  border: 1px solid #DDD;
+  border: 3px solid white;
 }
 #self-video {
   position: absolute;
@@ -106,9 +107,6 @@ video {
   top: 12px;
   right: 12px;
 }
-
-
-
 /* chat style */
 /* TODO add new style to chat box */
 /* #chat-window {
@@ -145,67 +143,40 @@ video {
   border: solid 1px;
   height: 100%;
 } */
-
-
-
 #checkerboard table, th, td {
    border: 1px solid black;
   height: 60px;
   width: 20px;
 }
-
 .fill {
   display: block;
   height: 100%;
   width: 100%
 }
-
 .red {
   background: red;
-
 }
-
 .black {
   background: black;
-
 }
-
 .redPiece {
-
     background-color: #fa7587;
-
-
+    
 }
-
 .blackPiece {
-
     background-color: #3f556b;
-
-
 }
-
 .redKing {
-
     background-color: #ff266b;
-
 }
-
 .blackKing {
-
     background-color: #71aae3;
-
-
 }
-
 .avaliableMove {
-
   background: black;
   animation: flash 0.7s;
   animation-iteration-count: infinite;
-
-
 }
-
 @keyframes flash {
   50%  {background-color: #61aefa;}
 }
