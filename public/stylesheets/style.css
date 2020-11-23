@@ -35,7 +35,7 @@ button:disabled {
   border-radius: 1px;
 }
 #start-game {
-  background-color: lightskyblue;
+  background-color: lightgreen;
   color: black;
   padding: 5px;
   border-radius: 5px;
@@ -82,7 +82,7 @@ ul#chat-log li.peer {
 }
 ul#chat-log li.self {
   margin-left: auto;
-  background-color: rgb(58, 175, 248);
+  background-color: lightskyblue;
   color: black;
 }
 #header,
