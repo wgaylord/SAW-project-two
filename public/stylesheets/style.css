@@ -20,19 +20,24 @@ button {
   padding: 10px;
   background-color: #EEE;
   color: black;
-  border: 2px solid;
+  border: 1px solid;
   border-radius: 5px;
 }
 input {
   background-color: inherit;
 }
 button:disabled {
-  color: #CCC;
+  color: lightgray;
 }
 #answer-button {
-  background-color: green;
+  background-color: lawngreen;
   color: black;
-  border-radius: 5px;
+  border-radius: 1px;
+}
+#start-game {
+  background-color: lawngreen;
+  color: black;
+  border-radius: 1px;
 }
 /* chat style */
 #chat-form {
@@ -43,12 +48,13 @@ button:disabled {
 }
 #chat-form > input:focus {
   border-color: black;
-  border: 3px solid;
+  border: 2px solid;
 }
 #chat-form > button {
   width: 5%;
   margin-left: 6px;
   border-radius: 2px;
+  background-color: lightgray;
 }
 #chat-form > * {
   flex: 1 1 auto;
@@ -64,8 +70,8 @@ ul#chat-log {
 ul#chat-log li {
   margin-bottom: 6px;
   padding: 6px;
-  background-color: black;
-  color: crimson;
+  background-color: lawngreen;
+  color: black;
   border-radius: 6px;
   flex: 1 0 min-content;
   max-width: 60%;
@@ -75,7 +81,7 @@ ul#chat-log li.peer {
 }
 ul#chat-log li.self {
   margin-left: auto;
-  background-color: crimson;
+  background-color: orange;
   color: black;
 }
 #header,
@@ -99,7 +105,7 @@ video {
   box-sizing: border-box;
   width: 100%;
   background-color: #222;
-  border: 3px solid white;
+  border: 2px solid lightgray;
 }
 #self-video {
   position: absolute;

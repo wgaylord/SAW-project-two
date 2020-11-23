@@ -88,11 +88,9 @@ function addGameDataChannelEventListeners(datachannel){
   }
   // When opening the data channel
   datachannel.onopen = function() {
-    
   }
   // When closing the data channel
   datachannel.onclose = function() {
-
   }
 }
 
