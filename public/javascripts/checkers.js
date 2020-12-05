@@ -105,40 +105,9 @@ function Checkers() {
     }
 
     //Convert remote locations ot local
-    const convertSides = {
-        63: 2,
-        61: 4,
-        59: 6,
-        57: 8,
-        56: 9,
-        54: 11,
-        52: 13,
-        50: 15,
-        47: 18,
-        45: 20,
-        43: 22,
-        41: 24,
-        40: 25,
-        38: 27,
-        36: 29,
-        34: 31,
-        31: 34,
-        29: 36,
-        27: 38,
-        25: 40,
-        24: 41,
-        22: 43,
-        20: 45,
-        18: 47,
-        15: 50,
-        13: 52,
-        11: 54,
-        9: 56,
-        8: 57,
-        6: 59,
-        4: 61,
-        2: 63
-    };
+    var convertSides(x) {
+        return (-x) + 65;
+    }
 
     //Game State
     var checkerState = {
@@ -221,14 +190,14 @@ function Checkers() {
     }
 
     function processCapture(loc) {
-        checkerState.board[convertSides[loc]] = "empty"
+        checkerState.board[convertSides(loc)] = "empty"
         updateBoard();
     }
 
     //Process update from remote
     function processUpdate(oldLocation, newLocation, didCapture) {
-        checkerState.board[convertSides[newLocation]] = checkerState.board[convertSides[oldLocation]]
-        checkerState.board[convertSides[oldLocation]] = "empty"
+        checkerState.board[convertSides(newLocation)] = checkerState.board[convertSides(oldLocation)]
+        checkerState.board[convertSides(oldLocation)] = "empty"
         checkRemoteKingMe();
 
 
