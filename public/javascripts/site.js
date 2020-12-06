@@ -170,6 +170,8 @@ function startCall() {
   sc.emit('calling');
   startStream();
   negotiateConnection();
+  // Append Player 1 title to chat box
+  appendMessageToChatLog(chatLog, "Player 1");
 }
 
 // Handle the 'calling' event on the receiving peer (the callee)
@@ -182,6 +184,8 @@ sc.on('calling', function() {
   callButton.addEventListener('click', function() {
     callButton.hidden = true;
     startStream();
+    // Append Player 2 title to chat box
+    appendMessageToChatLog(chatLog, "Player 2");
   });
 });
 
@@ -227,7 +231,7 @@ sc.on('signal', async function({ candidate, description }) {
 
       // WebRTC Specification Perfect Negotiation Pattern
       var readyForOffer = !clientIs.makingOffer && (pc.signalingState == "stable" || clientIs.isSettingRemoteAnswerPending);
-      var offerCollision = description.type == "answer" && !readyForOffer; 
+      var offerCollision = description.type == "answer" && !readyForOffer;
       var offerCollision = description.type == "offer" && !readyForOffer;
       clientIs.ignoringOffer = !clientIs.polite && offerCollision;
       if (clientIs.ignoringOffer) {
