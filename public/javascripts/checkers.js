@@ -1,5 +1,12 @@
 function Checkers() {
     checkers = new Object()
+    
+    //Constant Arrays used.
+    opponentPieceStartLocation = [2, 4, 6, 8, 9, 11, 13, 15, 18, 20, 22, 24]
+    pieceStartLocation = [41, 43, 45, 47, 50, 52, 54, 56, 57, 59, 61, 63]
+    opponentKingRow = [57, 59, 61, 63]
+    kingRow = [2, 4, 6, 8]
+    allPieceLocations = [2, 4, 6, 8, 9, 11, 13, 15, 18, 20, 22, 24, 25, 27, 29, 31, 34, 36, 38, 40, 41, 43, 45, 47, 50, 52, 54, 56, 57, 59, 61, 63]
     /*
      * Returns a list of all avaiable move locations for any piece
      * location is a number between 1 and 64. Number based starting in the top left corner at 1
@@ -105,7 +112,7 @@ function Checkers() {
     }
 
     //Convert remote locations ot local
-    var convertSides(x) {
+    function convertSides(x) {
         return (-x) + 65;
     }
 
@@ -141,10 +148,10 @@ function Checkers() {
         while (checkerState.board.length <= 64) {
             checkerState.board.push("empty") //Populate game board as all empty
         }
-        [2, 4, 6, 8, 9, 11, 13, 15, 18, 20, 22, 24].forEach(function(x) {
+        opponentPieceStartLocation.forEach(function(x) {
             checkerState.board[x] = "opponentPiece";
         }); //Place opponents pieces
-        [41, 43, 45, 47, 50, 52, 54, 56, 57, 59, 61, 63].forEach(function(x) {
+        pieceStartLocation.forEach(function(x) {
             checkerState.board[x] = "piece";
         }); //Place your pieces
         updateBoard(); //Update board on document
@@ -212,7 +219,7 @@ function Checkers() {
 
     //Check for King
     function checkKingMe() {
-        [2, 4, 6, 8].forEach(function(x) {
+        kingRow.forEach(function(x) {
             if (checkerState.board[x] == "piece") {
                 checkerState.board[x] = "king"
             }
@@ -220,7 +227,7 @@ function Checkers() {
     }
 
     function checkRemoteKingMe() {
-        [57, 59, 61, 63].forEach(function(x) {
+        opponentKingRow.forEach(function(x) {
             if (checkerState.board[x] == "opponentPiece") {
                 checkerState.board[x] = "opponentKing"
             }
@@ -234,7 +241,7 @@ function Checkers() {
     //Update Board
     function updateBoard() {
         clearBoard();
-        [2, 4, 6, 8, 9, 11, 13, 15, 18, 20, 22, 24, 25, 27, 29, 31, 34, 36, 38, 40, 41, 43, 45, 47, 50, 52, 54, 56, 57, 59, 61, 63].forEach(function(x) {
+        allPieceLocations.forEach(function(x) {
             if (checkerState.board[x] == "opponentPiece") {
                 if (checkerState.color == "red") {
                     document.getElementById(x).classList.add("blackPiece");
@@ -268,7 +275,7 @@ function Checkers() {
 
     //Clear all pieces from board
     function clearBoard() {
-        [2, 4, 6, 8, 9, 11, 13, 15, 18, 20, 22, 24, 25, 27, 29, 31, 34, 36, 38, 40, 41, 43, 45, 47, 50, 52, 54, 56, 57, 59, 61, 63].forEach(function(x) {
+        allPieceLocations.forEach(function(x) {
             document.getElementById(x).classList.remove("avaliableMove");
             document.getElementById(x).classList.remove("redKing");
             document.getElementById(x).classList.remove("redPiece");
@@ -279,7 +286,7 @@ function Checkers() {
 
     //Clear Abaliable Moves
     function clearAvaliableMoves() {
-        [2, 4, 6, 8, 9, 11, 13, 15, 18, 20, 22, 24, 25, 27, 29, 31, 34, 36, 38, 40, 41, 43, 45, 47, 50, 52, 54, 56, 57, 59, 61, 63].forEach(function(x) {
+        allPieceLocations.forEach(function(x) {
             document.getElementById(x).classList.remove("avaliableMove");
         })
     }
@@ -292,11 +299,9 @@ function Checkers() {
 
     //Register Click Handlers	
     function registerClickHandlers() {
-        [2, 4, 6, 8, 9, 11, 13, 15, 18, 20, 22, 24, 25, 27, 29, 31, 34, 36, 38, 40, 41, 43, 45, 47, 50, 52, 54, 56, 57, 59, 61, 63].forEach(function(x) {
-            document.getElementById(x).addEventListener("click", function() {
-                BoardClickHandler(x);
+        document.getElementById("checkerboard").addEventListener("click", function(event) {
+                BoardClickHandler(parseInt(event.target.id));
             });
-        });
     }
     checkers.addClickHandlers = registerClickHandlers;
     checkers.initGame = initGame;
