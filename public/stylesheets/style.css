@@ -205,7 +205,7 @@ video {
     animation-iteration-count: infinite;
 }
 .avaliableMove {
-  background: black;
+  background: tan;
   animation: flash 0.7s;
   animation-iteration-count: infinite;
 }
