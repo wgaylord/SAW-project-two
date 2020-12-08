@@ -71,19 +71,20 @@ ul#chat-log {
 ul#chat-log li {
   margin-bottom: 6px;
   padding: 6px;
-  background-color: rgb(80, 248, 80);
+  background-color: red;
   color: black;
   border-radius: 6px;
   flex: 1 0 min-content;
-  max-width: 60%;
+  max-width: 100%;
 }
 ul#chat-log li.peer {
+  background-color: lightgreen;
   margin-right: auto;
 }
 ul#chat-log li.self {
-  margin-left: auto;
   background-color: lightskyblue;
   color: black;
+  margin-left: auto;
 }
 #header,
 #app {
@@ -168,7 +169,7 @@ video {
 }
 .redPiece {
     background-color: #fa7587;
-    
+
 }
 .blackPiece {
     background-color: #3f556b;
