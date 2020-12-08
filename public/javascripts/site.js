@@ -1,17 +1,17 @@
 'use strict';
 // Use 'sc' for the signlaing channel...
 var sc = io.connect('/' + NAMESPACE);
-sc.on('message', function(data) {
-  console.log('Message recieved: ' + data);
-});
+// sc.on('message', function(data) {
+//   console.log('Message recieved: ' + data);
+// });
 
 // Track client states
 var clientIs = {
   makingOffer: false,
   ignoringOffer: false,
   polite: false,
-  isSettingRemoteAnswerPending: false,
-  settingRemoteAnswerPending: false
+  isSettingRemoteAnswerPending: false
+  //settingRemoteAnswerPending: false
 }
 
 // Trying Mozilla's public STUN server stun.services.mozilla.org
@@ -220,20 +220,15 @@ async function negotiateConnection() {
 sc.on('signal', async function({ candidate, description }) {
   try {
     if (description) {
-      /*
-      console.log('Received a decription...');
-      var offerCollision  = (description.type == 'offer') && (clientIs.makingOffer || pc.signalingState != 'stable')
       // WebRTC Specification Perfect Negotiation Pattern
-      var readyForOffer = !clientIs.makingOffer && (pc.signalingState == "stable" || clientIs.settingRemoteAnswerPending);
-      var offerCollision = description.type == "answer" && !readyForOffer;
-      clientIs.ignoringOffer = !clientIs.polite && offerCollision;
-      */
 
-      // WebRTC Specification Perfect Negotiation Pattern
-      var readyForOffer = !clientIs.makingOffer && (pc.signalingState == "stable" || clientIs.isSettingRemoteAnswerPending);
-      var offerCollision = description.type == "answer" && !readyForOffer;
+      var readyForOffer =
+       !clientIs.makingOffer &&
+       (pc.signalingState == "stable" || clientIs.isSettingRemoteAnswerPending);
+      // var offerCollision = description.type == "answer" && !readyForOffer;
       var offerCollision = description.type == "offer" && !readyForOffer;
       clientIs.ignoringOffer = !clientIs.polite && offerCollision;
+
       if (clientIs.ignoringOffer) {
         return; // Just leave if we're ignoring offers
       }
@@ -241,9 +236,9 @@ sc.on('signal', async function({ candidate, description }) {
       // Set the remote description...
       try {
         console.log('Trying to set a remote description:\n', description);
-        clientIs.SettingRemoteAnswerPending = description.type == "offer";
+        clientIs.isSettingRemoteAnswerPending = description.type == "answer";
         await pc.setRemoteDescription(description);
-        clientIs.SettingRemoteAnswerPending = false;
+        clientIs.isSettingRemoteAnswerPending = false;
       } catch(error) {
         console.error('Error from setting local description', error);
       }
