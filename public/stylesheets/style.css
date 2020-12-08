@@ -167,17 +167,33 @@ video {
   background: black;
 }
 .redPiece {
+    height: 15px;
+    width: 15px;
     background-color: #fa7587;
+    border-radius: 50%;
+    display: inline-block;
     
 }
 .blackPiece {
+    height: 15px;
+    width: 15px;
     background-color: #3f556b;
+    border-radius: 50%;
+    display: inline-block;
 }
 .redKing {
     background-color: #ff266b;
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    display: inline-block;
 }
 .blackKing {
     background-color: #71aae3;
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    display: inline-block;
 }
 .avaliableMove {
   background: black;
