@@ -157,31 +157,56 @@ video {
   width: 20px;
 }
 .fill {
+  height: 3em;
+  width: 3em;
   display: block;
-  height: 100%;
-  width: 100%
 }
 .red {
-  background: red;
+  background: lightgoldenrodyellow;
+  height: 100%
 }
 .black {
-  background: black;
+  background: tan;
+  height: 100%
 }
 .redPiece {
+    height: 2.8em;
+    width: 2.8em;
     background-color: #fa7587;
-
+    border-radius: 50%;
+    margin-left: 4%;
+    margin-bottom: 4%;
 }
 .blackPiece {
+    height: 2.8em;
+    width: 2.8em;
     background-color: #3f556b;
+    border-radius: 50%;
+    margin-left: 4%;
+    margin-bottom: 4%;
 }
 .redKing {
     background-color: #ff266b;
+    height: 2.8em;
+    width: 2.8em;
+    border-radius: 50%;
+    margin-left: 4%;
+    margin-bottom: 4%;
+    animation: flash 0.3s;
+    animation-iteration-count: infinite;
 }
 .blackKing {
-    background-color: #71aae3;
+    background-color: black;
+    height: 2.8em;
+    width: 2.8em;
+    border-radius: 50%;
+    margin-left: 4%;
+    margin-bottom: 4%;
+    animation: flash 0.3s;
+    animation-iteration-count: infinite;
 }
 .avaliableMove {
-  background: black;
+  background: tan;
   animation: flash 0.7s;
   animation-iteration-count: infinite;
 }
