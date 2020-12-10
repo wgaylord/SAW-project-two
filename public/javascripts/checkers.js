@@ -155,12 +155,12 @@ function Checkers() {
             checkerState.board[x] = "piece";
         }); //Place your pieces
         updateBoard(); //Update board on document
-    }
+  }
 
     //handle Click events
     function BoardClickHandler(click_location) {
         if (checkerState.State == "waiting_selection" & ["king", "piece"].includes(checkerState.board[click_location])) { //If player turn and clicked on a vaild peice
-            checkerState.SelectedPiece = click_location; //Save selected peice
+           checkerState.SelectedPiece = click_location; //Save selected peice
             checkerState.State = "waiting_for_move" //Set to next state
             checkerState.Moves = availableMovements(click_location, checkerState.board, checkerState.board[click_location] == "king") //Get available moves
             if (checkerState.Moves == []) {
@@ -215,6 +215,8 @@ function Checkers() {
         //Lastly update board
 
         updateBoard();
+        
+        
     }
 
     //Check for King
@@ -240,6 +242,7 @@ function Checkers() {
 
     //Update Board
     function updateBoard() {
+        updatePlayerTurnIndicator();
         clearBoard();
         allPieceLocations.forEach(function(x) {
             if (checkerState.board[x] == "opponentPiece") {
@@ -271,6 +274,8 @@ function Checkers() {
                 }
             }
         })
+        
+        
     }
 
     //Clear all pieces from board
@@ -295,6 +300,15 @@ function Checkers() {
         checkerState.Moves.forEach(function(x) {
             document.getElementById(x).classList.add("avaliableMove");
         })
+    }
+    
+    function updatePlayerTurnIndicator(){
+            console.log(checkerState)
+            if(checkerState.State == "waiting_other_player"){ 
+                document.getElementById("playerindicator").innerHTML = "Other Player's Turn";
+            }else{
+                document.getElementById("playerindicator").innerHTML = "Your Turn";
+            }
     }
 
     //Register Click Handlers	
