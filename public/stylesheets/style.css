@@ -71,7 +71,7 @@ ul#chat-log {
 ul#chat-log li {
   margin-bottom: 6px;
   padding: 6px;
-  background-color: red;
+  background-color: lightgrey;
   color: black;
   border-radius: 6px;
   flex: 1 0 min-content;
